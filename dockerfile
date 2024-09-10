@@ -7,6 +7,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set VNC password as an environment variable
 ENV VNC_PASSWORD=password  
 
+# Disable GPU rendering by forcing software mode
+ENV LIBGL_ALWAYS_SOFTWARE=1
+
 # Update and install necessary dependencies
 RUN apt-get update && apt-get install -y \
     wget \
@@ -24,9 +27,7 @@ RUN apt-get update && apt-get install -y \
     novnc \
     websockify \
     xauth \
-    xfce4-power-manager \
-    xscreensaver \
-    firefox \
+    fuse \
     && apt-get clean
 
 # Install .NET SDK (for C# development)
@@ -44,7 +45,11 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
     && apt-get install -y code \
     && apt-get clean
 
-# Create a non-root user for running VSCode
+# Install Unity Hub (Unity editor)
+RUN wget https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage -O /usr/bin/UnityHub \
+    && chmod +x /usr/bin/UnityHub
+
+# Create a non-root user for running VSCode and Unity
 RUN useradd -ms /bin/bash devuser \
     && echo "devuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
