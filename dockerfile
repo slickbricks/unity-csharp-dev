@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
     websockify \
     xauth \
     fuse \
+    firefox \
     && apt-get clean
 
 # Install .NET SDK (for C# development)
@@ -95,4 +96,4 @@ WORKDIR /home/devuser/tests/
 EXPOSE 5901 6080
 
 # Start VNC server and noVNC
-CMD su - devuser -c "vncserver :1 -geometry 1280x800 -depth 24" && /usr/share/novnc/utils/launch.sh --vnc localhost:5901 --listen 6080 && tail -f /dev/null
+CMD su - devuser -c "vncserver :1 -geometry 1280x800 -depth 32" && /usr/share/novnc/utils/launch.sh --vnc localhost:5901 --listen 6080 && tail -f /dev/null
